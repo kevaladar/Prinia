@@ -1,0 +1,212 @@
+(footprint "SKHLLCA010"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "alps SKHLLCA010 DIP pushbutton")
+	(tags "alps tht dip pushbutton SPST")
+	(property "Reference" "REF**"
+		(at -2.25 3.5 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "cc5384dc-486d-4497-8578-d82e262cd033")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "SW_Push"
+		(at 0 -0.75 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "03149e9e-1b26-40c4-94a3-5ba7f9c58add")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d236e403-7e34-4c5f-9de2-aa144ece5254")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "58c937c6-57b3-48f4-b1ea-96c165693b4c")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_line
+		(start -3.9 -3.75)
+		(end 3.9 -3.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "b92b5c54-5279-4fc6-b572-cd1acfaaea31")
+	)
+	(fp_line
+		(start -3.9 -0.07)
+		(end -3.9 -3.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "3570d816-c4ed-4028-96c7-9cc6daa4d0e7")
+	)
+	(fp_line
+		(start -2.25 0.55)
+		(end 2.25 0.55)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "10970457-6822-4da3-a982-622ca4290563")
+	)
+	(fp_line
+		(start -1.25 -5)
+		(end 1.25 -5)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "03075539-8ba1-43e7-8e31-bdf3db8b63ba")
+	)
+	(fp_line
+		(start -1.25 -3.75)
+		(end -1.25 -5)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "f489c758-cfb5-42fc-93ac-6ef5ed7eefc6")
+	)
+	(fp_line
+		(start 1.25 -3.75)
+		(end 1.25 -5)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "5984d75b-f80a-46d3-a840-2081a6196346")
+	)
+	(fp_line
+		(start 3.9 -0.07)
+		(end 3.9 -3.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "d97101b8-9f25-43e0-a7d8-9daf69daf8b5")
+	)
+	(fp_line
+		(start -3.65 -4.97)
+		(end -3.65 2.18)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "e22aa6c4-a67f-4084-8f31-23a4958e3255")
+	)
+	(fp_line
+		(start -3.65 -4.97)
+		(end 3.65 -4.97)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "29804344-e6fb-4da6-a09c-b7f542fcea43")
+	)
+	(fp_line
+		(start -3.65 2.18)
+		(end 3.65 2.18)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "034de4a1-66c2-40da-8244-3519eec41dac")
+	)
+	(fp_line
+		(start 3.65 -4.97)
+		(end 3.65 2.18)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "c4953d5c-66ed-4726-b7d3-7786917914b2")
+	)
+	(pad "1" thru_hole circle
+		(at 2.5 -1.25)
+		(size 1.8 1.8)
+		(drill 1)
+		(layers "*.Cu" "B.Mask")
+		(remove_unused_layers no)
+		(uuid "975aa2a0-0ae1-4e8a-a05e-f3fd522687e4")
+	)
+	(pad "2" thru_hole circle
+		(at -2.5 -1.25)
+		(size 1.8 1.8)
+		(drill 1)
+		(layers "*.Cu" "B.Mask")
+		(remove_unused_layers no)
+		(uuid "beeb8bab-df67-45b7-9891-15642c1a7463")
+	)
+	(pad "MP" thru_hole circle
+		(at -3.5 1.25)
+		(size 2.1 2.1)
+		(drill 1.3)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "74119599-2898-4d1a-af93-298ba573ae6b")
+	)
+	(pad "MP" thru_hole circle
+		(at 3.5 1.25)
+		(size 2.1 2.1)
+		(drill 1.3)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "85fb4f3a-64d9-429d-b1e8-846c6d8ef39f")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/TOTEM3D/SW_SKHLLC.step"
+		(offset
+			(xyz 0 3.25 2.5)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 0 180)
+		)
+	)
+)
