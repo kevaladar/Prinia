@@ -1,574 +1,458 @@
 meta:
-  engine: 4.1.0
-  name: thrum
-  version: 0.0.7
+  engine: 4.2.1
+  name: prinia
+  version: 0.1
   author: keval
-
-presets:
-  # These presets provide different layout options
-  # Select a preset in the `units` section below
-  # Note: The appropriate switch footprint will still need to be set in the `pcb` section
-  defaults:
-    capx: 17        # Key cap size horizontal
-    capy: 16        # Key cap size vertical
-    kx: 18.5        # Key spacing horizontal
-    ky: 17.5        # Key spacing vertical
-    pinky_splay: 7  # Degrees of splay between pinky and ring columns
-    pinky_adj: -3   # Adjustment to compensate for splay spacing
-    ring_splay: 3
-    ring_adj: -8
-    middle_splay: 0
-    middle_adj: 0
-    thumb_offsetx: 0.25kx
-
-  mx_spaced:
-    $extends: presets.defaults
-    capx: 18   
-    capy: 18
-    kx: 19
-    ky: 19
-    pinky_adj: -4
-    ring_adj: -10
-
+  
 units:
-  $extends: presets.mx_spaced
+  # Parameters
+  # ==========
+  capx: 18        # Key cap size horizontal
+  capy: 18        # Key cap size vertical
+  kx: capx + 1    # Key spacing horizontal
+  ky: capy + 1    # Key spacing vertical
+  pinky_stagger: 0.955ky+0.026
+  pinky_splay: 5  # Degrees of splay between pinky and ring columns
+  pinky_adj: -9.1   # Adjustment to compensate for splay spacing
+  ring_splay: 3
+  ring_adj: -9.5
+  tucky_splay: -10
+  reachy_splay: -10
 
-  # Defaults/Constants
-  # ====================
-  $default_height: 0  # Points invisible by default unless height/width explicitly set
-  $default_width: 0
-  promicro_x: 32.02
-  promicro_y: 17.78
-  sf: 15
+  # Constants
+  # =========
+  pro_x: 17.78
+  pro_y: 33.08
+  visual_x: 1     # Visual representation of keycaps horizontal
+  visual_y: 1     # Visual representation of keycaps vertical
+  sf: 16          # Switch footprint (square)
 
 points:
-  # Keys/Switches
-  # =============
   zones.matrix:
-    anchor.shift: [150, -180]
-    rotate: pinky_splay + ring_splay + middle_splay #-10
+    anchor.shift: [150, -125]
+    rotate: pinky_splay + ring_splay
     key:
       width: capx
       height: capy
-      spread: kx      
+      spread: kx
       padding: ky
+      autobind: 0          
     rows:
       bottom:
       home:
       top:
-    columns:
-      pinky:
-        rows:
-          top:
-            rotate: 90
-            column_net: P14
-          bottom:
-            column_net: P21
-      ring.key:
-        stagger: 2/3ky+2
+    columns.pinky:
+      rows:
+        bottom.skip: true
+        home:
+          bind: [0, 0.6kx, 0, 0]   
+          column_net: P21
+        top:
+          bind: [0, 0.5kx, 0.3ky, 0]   
+
+          column_net: P20
+    columns.ring:
+      key:
+        stagger: pinky_stagger
         splay: -pinky_splay
-        origin: [0, pinky_adj-5.5]
-      middle.key:
-        stagger: 0.25ky-0.5+1
+        origin: [0, pinky_adj]
+      rows:
+        bottom:
+          bind: [0, 0, 0, 0.5kx]         
+          column_net: P15
+        home:
+          bind: [0, 0, 0.5ky, 0]     
+          column_net: P18
+        top:
+          bind: [0, 0.5kx, 0.5ky, 0]     
+          column_net: P19
+    columns.middle:
+      key:
+        stagger: 0.25ky
         splay: -ring_splay
         origin: [0, ring_adj]
-      index.key:
-        stagger: -0.25ky-1-1
-        splay: -middle_splay
-        origin: [0, middle_adj]
-      inner:
-        key.stagger: -0.5ky
-        rows:
-          bottom.skip: true
+      rows:
+        bottom:
+          bind: [0.5ky, 0.5kx, 0, 0.5kx]   
+          column_net: P10
+        home:
+          bind: [0, 0.5kx, 0, 0]           
+          column_net: P16
+        top:
+          # bind: [-1, 1.5, 0.5ky, 1.5]           
+          bind: [-1, 0, 0.5ky, 0]           
+          column_net: P14
+    columns.index:
+      key:
+        stagger: -0.25ky
+      rows:
+        bottom:
+          bind: [0.5ky, 0.5kx, 0, 0]     
+          column_net: P3
+        home:
+          column_net: P4
+        top:
+          bind: [0, 1, 0.5ky, 0.5kx]     
+          column_net: P5
+    columns.inner:
+      key:
+        stagger: -0.5ky
+      rows:
+        bottom.skip: true
+        home:
+          bind: [0, 0, 1.7ky, 0]   
+          column_net: P7
+        top:
+          bind: [0.5ky, 0, 0.5ky, 0.5kx]       
+          column_net: P6
+
   zones.thumb:
     anchor:
-      ref: matrix_middle_bottom
-      shift: [19 + 8.5, -22-0.25ky - 0.25ky-1]
-    key.$extends: points.zones.matrix.key
+      ref: matrix_index_bottom
+      shift: [0.9kx, -26.75]
+    key:
     columns:
       tucky:
-        key: 
-          splay: 
-          rotate: 180
-      reachy.key:
-        spread: 20.23
-        splay: -8
-        stagger: -1.415
-        rotate: -90
-
-
+        key:
+          splay: tucky_splay
+          bind: [0.1ky, 0.1kx, 0, 0.5kx]   
+          column_net: P9
+      reachy:
+        key:
+          spread: 1.08kx-0.015
+          stagger: -0.086ky-0.16
+          splay: reachy_splay
+          bind: [0.1ky, 0, 0, 0.4kx]       
+          column_net: P8
+          rotate: 0 #-90
+  zones.single_thumb:
+    anchor:
+      aggregate.parts: [thumb_tucky, thumb_reachy]
+      shift: [0,0.5]
+    key:
+      column_net: P8
+  # zones.mouse_bite_bot:
+  #   anchor: 
+  #     ref: matrix_pinky_top
+  #     shift: [-2,-11.25]
+  #   key:
+  #     width: 0.6
+  #     height: 0.6
+  #     spread: 1
+  #   columns:
+  #     1:
+  #     2: 
+  #     3:
+  #     4:
+  #     5:
+  # zones.mouse_bite_right: 
+  #   anchor: 
+  #     ref: matrix_ring_home
+  #     shift: [-7.75,-2]
+  #   key:
+  #     width: 0.6
+  #     height: 0.6
+  #     padding: 1
+  #   rows:
+  #     1:
+  #     2: 
+  #     3:
+  #     4:
+  #     5:
   # Components
   # ==========
-  zones.mcu_bot:
+  zones.mcu:
     anchor:
-      ref: matrix_pinky_bottom
-      shift: [-2, -0.5promicro_y +5.4]
-      rotate: -pinky_splay - ring_splay +90
+      ref: matrix_middle_home
+      shift: [-1.47kx+0.5, -2.5ky-0.2+0.4]
+      rotate: 90
     key:
-      width: promicro_y
-      height: promicro_x
-  zones.mcu_top:
+      width: pro_x
+      height: pro_y
+  zones.reset_switch_tht:
     anchor:
-      ref: matrix_pinky_top
-      shift: [13, -1.5]
-      rotate: -pinky_splay -ring_splay -90
-    key:
-      width: promicro_y
-      height: promicro_x  
-  zones.battery_connector:
-    anchor:
-      ref: matrix_index_bottom
-      affect: xy
-      shift: [-kx+2.3, -0.3ky-2+1.5]
-    key:
-      height: 1.5
-      width: 6
-  zones.reset_switch:
-    anchor:
-      - ref: thumb_tucky
-        shift: [u/2+7+9+35-1.5, 9.5-1.75]
+      - ref: matrix_inner_top
+        # rotate: 90
+        shift: [0,13.5]
     key:
       height: 3.5
       width: 6
-  zones.power_switch:
+  zones.reset_switch_smd:
     anchor:
-      - ref: thumb_tucky
-        shift: [u/2+7+35-2, 9.4-1.75]
+      - ref: matrix_inner_home
+        shift: [16.5-0.15,-24]        
+        rotate: 270
     key:
       height: 3.5
       width: 6      
-  zones.battery:
-    anchor: 
-      ref: matrix_middle_home
-      affect: xy
-      shift: [-1, -2.5u]
+  zones.power_switch:
+    anchor:
+      - ref: matrix_inner_home
+        shift: [16.5-0.35,-15]
+        # rotate: 180
     key:
+      height: 6
+      width: 3.5
+  zones.battery:
+    anchor:
+      ref: matrix_middle_bottom
+      shift: [8-0.6,-27+0.4]
+    key: 
       height: 20.5
-      width: 32   
-  zones.mounting_holes_plated_top_right:
+      width: 32
+  zones.battery_connector:
     anchor:
       ref: matrix_middle_bottom
-      shift: [42.9-3+1-1, 41.6-3.5-1.1]          
-  zones.mounting_holes_plated_top_left:
-    anchor:
-      ref: matrix_middle_bottom
-      shift: [-59.5+4+1+1, 41.6-3.5-1.1]                
-  zones.mounting_holes_plated_bot_left:
-    anchor:
-      ref: matrix_middle_bottom
-      shift: [-49.1+3+1, -43.9+3.5+1.709]
-  zones.mounting_holes_plated_bot_right:
-    anchor:
-      ref: matrix_middle_bottom
-      shift: [53.2-6+1-0.45-5, -43.9+u+4.5] 
-  zones.mounting_holes_plated_top_right_2:
-    anchor:
-      ref: matrix_middle_bottom
-      shift: [42.9-3+1-1-7.9, 41.6-3.5-1.1-2.25] 
-  zones.mounting_holes_plated_middle:
-    anchor:
-      ref: matrix_middle_bottom
-      shift: [-6.4, -12.3]      
+      affect: xy
+      shift: [2, -0.67ky]
+    key:
+      height: 3.5
+      width: 6  
+  # zones.hole:
+  #   anchor:
+  #     - ref: matrix_ring_home
+  #       shift: [-8.5,5.5]
+    # anchor:
+    #   - ref: matrix_pinky_home
+    #     affect: y
+    #     shift: [0,8.5+3.5]
+    #   - ref: matrix_ring_home
+    #     affect: x
+    #     shift: [-8,0]  
+    # key: 
+    #   height: 3
+    #   width: 3    
 
+# Mounting holes            
+  zones.mounting_hole_1:
+    anchor:
+      ref: single_thumb
+      shift: [-4,12]
+    key:
+      width: 4
+      height: 4
+  zones.mounting_hole_2:
+    anchor:
+      aggregate.parts: [matrix_ring_top, matrix_pinky_top]
+      shift: [-1,3]
+    key:
+      width: 4
+      height: 4  
+  # zones.mounting_hole_3:
+  #   anchor:
+  #     aggregate.parts: [matrix_ring_bottom, matrix_pinky_home]
+  #     shift: [0,0]
+  #   key:
+  #     width: 4
+  #     height: 4    
+  zones.mounting_hole_4:
+    anchor:
+      ref: matrix_inner_top
+      shift: [-7, 12]
+    key:
+      width: 4
+      height: 4      
 outlines:
-  _mcu_top:
+  key_outline:
     - what: rectangle
-      where: mcu_top
-      size: [promicro_y, promicro_x]
-  _mcu_bot:
-    - what: rectangle
-      where: mcu_bot
-      size: [promicro_y, promicro_x]
-  _keycaps:
-    - what: rectangle
-      where:
-        - /matrix_.*/
-        - /thumb_.*/
-      size: [18, 18]
-      bound: false   
-  _thumb_reachy:
-    - what: rectangle
-      where: thumb_reachy
-      size: [19, 19]
-  _limitsz:
-    - what: rectangle
+      bound: true
+      size: sf
+      where: 
+        - /matrix._*/
+        - /thumb._*/ 
+  _panel_cut: # for 102*102mm outline
+    - what: rectangle # top
+      size: [150, 102]                   
       where: matrix_middle_bottom
-      size: [101.9, 101.9]
-      fillet: 2
       adjust:
-        shift: [-2.748, 2.498-2.25]
-        rotate: 8.5
+        shift: [5,-1.3+103]
+        rotate: 8       
+    - what: rectangle # left
+      size: [102, 150]                   
+      where: matrix_middle_bottom
+      adjust:
+        shift: [5-103,-1.3]
+        rotate: 8     
+    - what: rectangle # right
+      size: [102, 150]                   
+      where: matrix_middle_bottom
+      adjust:
+        shift: [5+103,-1.3]
+        rotate: 8  
+    - what: rectangle # bot
+      size: [150,102]                       
+      where: matrix_middle_bottom
+      adjust:
+        shift: [5,-1.3-103-5]
+        rotate: 8
+  _mcu_pcb:
+    - what: rectangle
+      size: [80,30]
+      where: matrix_middle_bottom
+      adjust.shift: [-10,-22+-0.659]
+    - what: rectangle
+      size: [20,72]
+      where: matrix_inner_home
+      adjust.shift: [8,0.5]   
+  _pinky_top:
+    - what: rectangle
+      size: [60,40]
+      where: matrix_middle_home
+      adjust.shift: [-14,2.25]
+
+      
+  # _gap_mouse_bite:
+  # # Gap (mouse_bite)  
+  #   - what: rectangle # gap bot
+  #     size: [30,1.5]
+  #     where: matrix_pinky_top
+  #     adjust.shift: [-2.462-0.5+0.5,-10.5+0.25]
+  #   - what: rectangle # gap right
+  #     size: [1.5,45]
+  #     where: matrix_ring_home
+  #     adjust.shift: [-8.5-0.25,+1.695+0.5+10-0.498]
+  #     fillet: 1
+  # _tab_mouse_bite: 
+  #   - what: rectangle # tab bot
+  #     size: [4.75,5]          
+  #     where: matrix_pinky_top
+  #     adjust.shift: [0,-9]
+  #   - what: rectangle # tab
+  #     size: [5,4.75]  
+  #     where: matrix_ring_home
+  #     adjust.shift: [-9.5,0]
+  _pcb_0: # add mcu space and subtract gap mouse bite
+    - what: outline
+      name: key_outline     
+    - what: outline
+      name: _mcu_pcb      
+    # - what: outline
+    #   name: _gap_mouse_bite
+    #   operation: subtract
+      # fillet: 1.5
+  _pcb_1: # panel cut    
+    - what: outline
+      name: _pcb_0    
+    - what: outline
+      name: _panel_cut
+      operation: subtract  
+      fillet: 1
+  pcb_outline: # add tab mouse bite
+    - what: outline
+      name: _pcb_1
+    - what: outline
+      name: _pinky_top  
+      
+    # - what: outline
+    #   name: _tab_mouse_bite       
+      fillet: 1.5  
+
   _battery:
     - what: rectangle
+      size: [32,20.5]
       where: battery
-      size: [32, 20.5]
-  _reset_switch:
-    - what: rectangle
-      where: reset_switch
-      size: [6, 3.5]            
-  _power_switch:    
-    - what: rectangle
-      where: power_switch
-      size: [6, 3.5]
-  _trapezoid:  
-      - what: polygon
-        operation: stack
-        points:
-          - ref: matrix_middle_bottom
-            shift: [-58.5, 40.5]
-          - ref: matrix_middle_bottom
-            shift: [-48.1, -43.9] 
-          - ref: matrix_middle_bottom
-            shift: [54.2, -43.9]            
-          - ref: matrix_middle_bottom
-            shift: [43.9, 40.5]  
-        #fillet: 3
-
-  _middle_key_outline:
-    - what: polygon
-      operation: stack
-      points:
-        # middle 4 (bot right)
-        - ref: matrix_middle_top
-          shift: [9.5, 0]  
-        # middle 2 (top right)
-        - ref: matrix_middle_top
-          shift: [9.5, 8] 
-        # middle 1 ( top left)
-        - ref: matrix_middle_top
-          shift: [-9.5, 8]  
-        # middle 3 (bot left)
-        - ref: matrix_middle_top
-          shift: [-9.5, 0]
-      fillet: 0.5
-  _limits: 
-    - what: outline
-      name: _trapezoid
-    - what: outline
-      name: _middle_key_outline
-      operation: add
-      #fillet: 0.49
-
-  _key_switch_14mm:
-    key_switch:
-      what: rectangle
-      where: 
-        - /matrix_.*/
-        - /thumb_.*/
-      size: 14  
-      #fillet: 0.49
-  _top_cut_limits:
-    - what: polygon
-      points:
-        - ref: mounting_holes_plated_top_left
-          shift: [-3.5,3.5]
-        - ref: mounting_holes_plated_top_left
-          shift: [-3.5,-30]          
-        - ref: mounting_holes_plated_top_left
-          shift: [-30,30]
-        - ref: mounting_holes_plated_top_right
-          shift: [30,30]  
-        - ref: mounting_holes_plated_top_right
-          shift: [30,30]    
-        - ref: mounting_holes_plated_top_right
-          shift: [5,3.5]            
-        # - ref: matrix_middle_top
-        #   shift: [11,2.5]
-        # - ref: matrix_middle_top
-        #   shift: [11,8.5]
-        # - ref: matrix_middle_top
-        #   shift: [-11,8.5]
-        # - ref: matrix_middle_top
-        #   shift: [-11,2.5]  
-  bot_cut_limits:
-    - what: polygon
-      points: 
-        - ref: mounting_holes_plated_bot_left
-          shift: [93.58,-4.92]
-        - ref: mounting_holes_plated_bot_left
-          shift: [100,-30]
-        - ref: mounting_holes_plated_bot_left
-          shift: [-3.5,-30]
-        - ref: mounting_holes_plated_bot_left
-          shift: [-3.5,-3.5]   
-        - ref: mounting_holes_plated_bot_left
-          shift: [83.5,-3.5]                                    
-
-  _side_cut_limits:
-    - what: polygon
-      points: 
-        - ref: matrix_inner_home
-          shift: [9.5,9.5]
-        - ref: matrix_inner_home
-          shift: [9.5,-27.03]
-        - ref: matrix_inner_home
-          shift: [20.46,-28.58]
-
-
-  _limitsx1:
-    - what: outline
-      name: _limitsz
-    - what: outline
-      name: _top_cut_limits
-      operation: subtract
-      fillet: 2
-  _limitsx2:
-    - what: outline
-      name: _limitsx1
-    - what: outline
-      name: bot_cut_limits
-      operation: subtract
-      fillet: 2
-  _limitsx3:
-    - what: outline
-      name: _limitsx2
-    - what: outline
-      name: _side_cut_limits
-      operation: subtract
-      # fillet: 0.5      
-  limitsx4:
-    - what: outline
-      name: _limitsx3
-    - what: outline
-      name: _middle_key_outline
-      operation: add
-      fillet: 0.5    
-
-  # _limitsx4:
-          
-  # _limitsx:
-  #   - _limitsz
-  #   - -_top_cut_limits  
-  #   - -_bot_cut_limits    
-        
-  key_demo:
-    - limitsx4
-    - ^_mcu_top
-    - ^_mcu_bot
-    - ^_keycaps
-    - ^_battery
-    - ^_reset_switch
-    - ^_power_switch
-  # plate_key_switch_14mm:
-  #   - limits
-  #   - ^_mcu_top
-  #   - ^_mcu_bot
-  #   - ^_key_switch_14mm
-  #   - ^_battery   
-  #   - ^_reset_switch
-  #   - ^_power_switch     
-
+      
 pcbs:
-  thrum:
+  prinia:
     template: kicad8
     outlines:
       main:
-        #outline: limits        
-        outline: limitsx4
-      # main:
-      #   outline: limits
-      #   layer: User.Comments
-      # batt:
-      #   outline: _battery
-      #   layer: User.Drawings  
+        outline: pcb_outline # pbc_debug # pcb_outline
+      panel: 
+        outline: _battery
+        layer: Cmts.User
     footprints:
-      keyswitches:
+      choc_solder_1:
         what: ceoloide/switch_choc_v1_v2
-        where:
-          - /matrix_.*/
-          - /thumb_.*/
+        where: /matrix_.*/
         adjust.rotate: 180
         params:
-          from: "{{name}}"
-          to: GND
-          include_keycap: true
-          keycap_height: 18.5
-          keycap_width: 18.5
+          from: "{{column_net}}"
+          to: "GND"
           reversible: true
-          solder: true 
           hotswap: false
+          solder: true 
+          include_keycap: true
           choc_v2_support: false
-          include_plated_holes: true
-          LEFTSTAB: GND
-          RIGHTSTAB: GND
-          include_corner_marks: true     
-      # refer_mxlp_big_holes:
-      #   what: ceoloide/mounting_hole_npth #refer switch hole
-      #   where:
-      #     - /matrix_.*/
-      #     - /thumb_.*/
-      #   params: 
-      #     hole_size: 6.25
-      #     hole_drill: 6.25                 
-      mcu_top:
-        what: ceoloide/mcu_supermini_nrf52840
+      choc_solder_3:
+        what: ceoloide/switch_choc_v1_v2
         where: 
-          - mcu_top
-        adjust:
-          #rotate: 90
-          shift: [2.033, -2.2-0.17]  # Compensate for midpoint being off-center 
+          - /thumb_.*/
+          - single_thumb
+        adjust.rotate: 90
         params:
-          reversible: true 
-          reverse_mount: true 
-        # reverse_mount: true is mcu face down         
-          only_required_jumpers: true  
-          include_traces: false 
-          P14: matrix_pinky_top
-          P2: matrix_pinky_home
-          P21: matrix_pinky_bottom
-          P20: matrix_ring_top
-          P15: matrix_ring_home
-          P3: matrix_ring_bottom
-          P19: matrix_middle_top
-          P16: matrix_middle_home
-          P4: matrix_middle_bottom
-          P18: matrix_index_top
-          P10: matrix_index_home
-          P7: matrix_index_bottom
-          P5: matrix_inner_top
-          P6: matrix_inner_home
-          P8: thumb_reachy
-          P9: thumb_tucky             
-      mcu_bot:
+          from: "{{column_net}}"
+          to: "GND"
+          reversible: true
+          hotswap: false
+          solder: true 
+          include_keycap: true
+          choc_v2_support: false                    
+      mcu:
         what: ceoloide/mcu_supermini_nrf52840
-        where: mcu_bot
-        adjust.shift: [0.834,-3+0.25-0.5]
+        where: mcu
         params:
+          reverse_mount: true       
           reversible: true 
-          reverse_mount: false
-        # reverse_mount false is mcu face up            
           only_required_jumpers: true 
-          include_traces: false 
-          P14: matrix_pinky_top
-          P2: matrix_pinky_home
-          P21: matrix_pinky_bottom
-          P20: matrix_ring_top
-          P15: matrix_ring_home
-          P3: matrix_ring_bottom
-          P19: matrix_middle_top
-          P16: matrix_middle_home
-          P4: matrix_middle_bottom
-          P18: matrix_index_top
-          P10: matrix_index_home
-          P7: matrix_index_bottom
-          P5: matrix_inner_top
-          P6: matrix_inner_home
-          P8: thumb_reachy
-          P9: thumb_tucky            
-         
+          show_instructions: false          
+      mounting_hole:
+        what: ceoloide/mounting_hole_plated
+        where: /mounting_hole/i
+      filled_zone:
+        what: ceoloide/utility_filled_zone          
+        params:
+          side: 'F&B'
+          pad_clearance: 0.28
+          
 
-                  
-      # cicada_place_holder:          
-      #   what: ceoloide/utility_ergogen_logo
-      #   where: matrix_index_bottom
-      #   params: 
-      #     reversible: true
-      #     scale: 1.7
-      #   adjust.shift: [17,-7]
-      # great_love_place_holder_front:          
-      #   what: ceoloide/utility_ergogen_logo
-      #   where: matrix_middle_bottom
-      #   params: 
-      #     scale: 5.5
-      #   adjust.shift: [1.5,-29.5] 
-      # great_love_place_holder_back:          
-      #   what: ceoloide/utility_ergogen_logo
-      #   where: matrix_middle_bottom
-      #   params: 
-      #     scale: 5.5
-      #     side: B
-      #   adjust.shift: [1.5,-29.5]                 
+          corner_smoothing: 'none'
+          smoothing_radius: 0
+          remove_islands: 'never'
+          fill_type: 'hatch'
+          hatch_thickness: 0.55
+          hatch_gap: 1
+          hatch_smoothing_level: 1
+          hatch_smoothing_value: 0.2
+
       jlcpcb_order_number_text:
         what: ceoloide/utility_text
         where: matrix_index_home
         params:
           text: JLCJLCJLCJLC
         adjust:
-          #rotate: -90
           shift: [0, u/2-22.5] 
-      # mounting_holes_plated_top_right:
-      #   what: ceoloide/mounting_hole_plated
-      #   where: mounting_holes_plated_top_right
-      mounting_holes_plated_top_left:
-        what: ceoloide/mounting_hole_plated
-        where: mounting_holes_plated_top_left             
-      mounting_holes_plated_bot_left:
-        what: ceoloide/mounting_hole_plated
-        where: mounting_holes_plated_bot_left
-      mounting_holes_plated_bot_right:
-        what: ceoloide/mounting_hole_plated
-        where: mounting_holes_plated_bot_right             
-      mounting_holes_plated_top_right_2:
-        what: ceoloide/mounting_hole_plated
-        where: mounting_holes_plated_top_right_2
-      mounting_holes_plated_middle:
-        what: ceoloide/mounting_hole_plated
-        where: mounting_holes_plated_middle
-          
       battery_connector:
         what: ceoloide/battery_connector_jst_ph_2
         where: battery_connector
+        adjust.rotate: 90
         params:
-          include_silkscreen: false
+          reversible: true 
+          include_traces: true
+          trace_width: 0.4
+          # include_silkscreen: true
           include_fabrication: false
           include_courtyard: false
-      reset_switch:
-          what: ceoloide/reset_switch_tht_top
-          where: reset_switch
+      reset_switch_tht:
+        what: ceoloide/reset_switch_tht_top
+        where: reset_switch_tht
       power_switch:
-          what: ceoloide/power_switch_smd_side
-          where: power_switch
-          adjust.rotate: 90       
-          params:
-            reversible: true
-      # battery_place_holder1:
-      #   what: ceoloide/mounting_hole_plated
-      #   where: matrix_index_bottom
-      #   adjust.shift: [-2.5,-11.25]
-      keep_out_zone_battery:
-        what: ceoloide/utility_keepout_zone
-        #where: matrix_middle_bottom
-        params: 
-          side: F&B
-          name: 'BATT'
-          locked: false
-          tracks_allowed: true
-          vias_allowed: true
-          pads_allowed: true
-          copperpour_allowed: false
-          footprints_allowed: true
-          outline_type: edge
-          hatch_pitch: 1
-          points:
-           - [231.9174, 145.0928]
-           - [231.9174, 165.5928]
-           - [199.9174, 165.5928]
-           - [199.9174, 145.0928]
-      filled_zone:
-        what: ceoloide/utility_filled_zone
-        params: 
-          side: 'F&B'
-          net: 'GND'
-          name: 
-          priority: 0
-          locked: false
-          #corner_smoothing: 'Chamfer'
-          #smoothing_radius: 0.5
-          #connect_pads: 
-          #pad_clearance: 0.508
-          #min_thickness: 0.25
-          #thermal_gap: 0.5
-          #thermal_bridge_width: 0.5
-          remove_islands: 'always'
-          min_island_size: 5
-          fill_type: 'solid'
-          #hatch_thickness: 1
-          #hatch_gap: 1.5
-          #hatch_orientation: 0
-          #hatch_smoothing_level: 0
-          #hatch_smoothing_value: 0.1
-          points: 
-           - [140, 75]
-           - [270, 75]
-           - [280, 180]
-           - [150, 180]
+        what: ceoloide/power_switch_smd_side
+        where: power_switch
+        params:
+          reversible: true
+          from: 'RAW'
+          to: 'BAT_P'
+      reset_switch_smd:
+        what: ceoloide/reset_switch_smd_side
+        where: reset_switch_smd
+        params:
+          designator: 'RST_S'
+          reversible: true 
+          include_bosses: true 
+      mouse_bite:
+        what: ceoloide/mounting_hole_npth
+        where: /mouse_bite_.*/
+        params:
+          hole_size: '0.64'
+          hole_drill: '0.64'

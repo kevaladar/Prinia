@@ -1,0 +1,5 @@
+﻿Designator,Footprint,Quantity,Value,LCSC Part #
+PWR1,power_switch_smd_side,1,,
+RST1,reset_switch_tht_top,1,,
+RST_S1,reset_switch_smd_side,1,,
+"S1, S10, S11, S12, S13, S14, S15, S16, S2, S3, S4, S5, S6, S7, S8, S9",SW_MX_MXLP_reversible,16,,
