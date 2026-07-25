@@ -1,0 +1,139 @@
+(footprint "Battery_Connector_Small"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Soldered wire connection, for 2 times 0.75 mm² wires, reinforced insulation, conductor diameter 1.25mm, outer diameter 3.5mm, size source Multi-Contact FLEXI-xV 0.75 (https://ec.staubli.com/AcroFiles/Catalogues/TM_Cab-Main-11014119_(en)_hi.pdf), bend radius 3 times outer diameter, generated with kicad-footprint-generator")
+	(tags "connector wire 0.75sqmm")
+	(property "Reference" "REF**"
+		(at 0.1 -2.95 0)
+		(layer "F.SilkS")
+		(uuid "8b9cae80-b449-4566-ac78-820edcc2644b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "Battery_Connector_Small"
+		(at 3.5 2.95 0)
+		(layer "F.Fab")
+		(uuid "c595b7fb-2582-4099-a9f8-c08e80b9158e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "94926a8c-c043-48c8-8769-3d232626b25a")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a3ca5e22-ef7c-4d06-89ca-b14d8772f4a3")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr exclude_from_pos_files exclude_from_bom)
+	(fp_rect
+		(start -3.000049 -1.2)
+		(end -0.600049 1.2)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "2a7aa557-d528-46d6-bee4-983dc10852d9")
+	)
+	(fp_rect
+		(start 0.6 -1.2)
+		(end 3 1.2)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "e05eb56d-f4df-4492-876c-b52c477ac157")
+	)
+	(fp_circle
+		(center -1.800049 0)
+		(end -0.800049 0.01)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "4113ad1f-5335-4226-8efc-69869bf720ba")
+	)
+	(fp_circle
+		(center 1.8 0)
+		(end 2.79 -0.02)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "51318f84-e0c3-4ea3-a964-75641c0e1ef6")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0.1 0 90)
+		(layer "F.Fab")
+		(uuid "51cafd64-4934-4b5c-aa1f-0c3d234caec3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" thru_hole roundrect
+		(at -1.800049 0)
+		(size 2 2)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(roundrect_rratio 0.071429)
+		(uuid "15c26e09-6b7e-41c8-930d-0f8f4440651f")
+	)
+	(pad "2" thru_hole circle
+		(at 1.8 0)
+		(size 2 2)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "94bf2494-d371-4485-a704-e4beebda8f63")
+	)
+	(embedded_fonts no)
+	(model "${KISYS3DMOD}/Connector_Wire.3dshapes/SolderWire-0.75sqmm_1x02_P7mm_D1.25mm_OD3.5mm.wrl"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)
