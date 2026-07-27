@@ -1,0 +1,618 @@
+units:
+  # Parameters
+  # ==========
+  capx: 18        # Key cap size horizontal
+  capy: 18        # Key cap size vertical
+  kx: capx + 1    # Key spacing horizontal
+  ky: capy + 1    # Key spacing vertical
+  angle: 22       # Angle between halves
+  pinky_stagger: 0.955ky
+  pinky_splay: 5  # Degrees of splay between pinky and ring columns
+  pinky_adj: -10   # Adjustment to compensate for splay spacing
+  ring_splay: 3
+  ring_adj: -10 #-8
+  tucky_splay: -7
+  reachy_splay: -10
+
+  # Constants
+  # =========
+  xiao_x: 17.78
+  xiao_y: 20
+  visual_x: 1     # Visual representation of keycaps horizontal
+  visual_y: 1     # Visual representation of keycaps vertical
+  sf: 16          # Switch footprint (square)
+
+points:
+  zones.matrix:
+    anchor.shift: [150, -125]
+    rotate: -angle + pinky_splay + ring_splay
+    mirror: &mirror
+      ref: matrix_inner_top
+      shift: [0.5sf, 0.5sf]
+      distance: 13
+    key: &key
+      width: capx
+      height: capy
+      autobind: 0      
+      tags:
+        keys: true
+    rows:
+      bottom.padding: ky
+      home.padding: ky
+      top.padding: ky
+    columns.pinky:
+      key.spread: kx
+      rows:
+        bottom:
+          row_net: r3
+          column_net: c1
+        home:
+          bind: [0, 0.6kx, 0, 0]
+          row_net: r2
+          column_net: c1
+        top:
+          row_net: r1
+          column_net: c1
+        bottom.mirror:
+          row_net: r3
+          column_net: c10                    
+        home.mirror:
+          row_net: r2
+          column_net: c10
+        top.mirror:
+          row_net: r1
+          column_net: c10          
+    columns.ring:
+      key:
+        spread: kx
+        stagger: pinky_stagger
+        splay: -pinky_splay
+        origin: [0, pinky_adj]
+      rows:
+        bottom:
+          bind: [0, 0, 0, 0.1kx]
+          row_net: r3
+          column_net: c2
+        home:
+          bind: [0, 0.5kx, 0.5ky, 0]
+          row_net: r2
+          column_net: c2
+        top:
+          bind: [0, 0.5kx, 0.5ky, 0]
+          row_net: r1
+          column_net: c2
+        bottom.mirror:
+          row_net: r3
+          column_net: c9
+        home.mirror:
+          row_net: r2
+          column_net: c9
+        top.mirror:
+          row_net: r1
+          column_net: c9
+    columns.middle:
+      key:
+        spread: kx
+        stagger: 0.25ky
+        splay: -ring_splay
+        origin: [0, ring_adj]
+      rows:
+        bottom:
+          bind: [0.5ky, 0.5kx, 0, 0.5kx]
+          row_net: r3
+          column_net: c3
+        home:
+          bind: [0, 0.5kx, 0, 0]
+          row_net: r2
+          column_net: c3
+        top:
+          bind: [0, 0, 0.5ky, 0]
+          row_net: r1
+          column_net: c3
+        bottom.mirror:
+          row_net: r3
+          column_net: c8
+        home.mirror:
+          row_net: r2
+          column_net: c8
+        top.mirror:
+          row_net: r1
+          column_net: c8
+    columns.index:
+      key:
+        spread: kx
+        stagger: -0.25ky
+      rows:
+        bottom:
+          bind: [0.5ky, 0.5kx, 0, 0]
+          row_net: r3
+          column_net: c4
+        home:
+          row_net: r2
+          column_net: c4
+        top:
+          bind: [0, 0, 0.5ky, 0.5kx]
+          row_net: r1
+          column_net: c4
+        bottom.mirror:
+          row_net: r3
+          column_net: c7
+        home.mirror:
+          row_net: r2
+          column_net: c7
+        top.mirror:
+          row_net: r1
+          column_net: c7
+    columns.inner:
+      key:
+        spread: kx
+        stagger: -0.5ky
+      rows:
+        bottom.skip: true
+        home:
+          bind: [0, 0.3kx, 0.1ky, 0.5kx]
+          row_net: r2
+          column_net: c5
+          tags:
+            matrix_inner: true
+        top:
+          bind: [0, 0, 0.5ky, 0.5kx]
+          row_net: r1
+          column_net: c5
+          tags:
+            matrix_inner: true
+        home.mirror:
+          row_net: r2
+          column_net: c6
+        top.mirror:
+          row_net: r1
+          column_net: c6
+  zones.thumb:
+    anchor:
+      ref: matrix_index_bottom
+      shift: [0.8kx, -25]
+    mirror: *mirror
+    key: *key
+    columns:
+      tucky:
+        key:
+          name: thumb_tucky
+          splay: tucky_splay
+          bind: [0.5ky, 0.1kx, 0, 0]
+          row_net: r3
+          column_net: c5
+        key.mirror:
+          row_net: r3
+          column_net: c6
+      reachy:
+        key:
+          spread: 1.1kx
+          name: thumb_reachy
+          stagger: -0.1ky
+          splay: reachy_splay
+          bind: [0, 0, 0, 0.5kx]
+          row_net: r4
+          column_net: c5
+        key.mirror:
+          row_net: r4
+          column_net: c6
+  zones.mcu:
+    anchor:
+      aggregate.parts: [matrix_inner_top, mirror_matrix_inner_top]
+      shift: [0, -0.7ky - 0.5xiao_y]
+    key:
+      name: mcu
+      width: xiao_x
+      height: xiao_y
+  zones.single_thumb_left:
+    anchor:
+      aggregate.parts: [thumb_tucky, thumb_reachy]
+  zones.single_thumb_right:
+    anchor:
+      aggregate.parts: [mirror_thumb_tucky, mirror_thumb_reachy]
+       
+  zones.mounting_hole:
+    anchor:
+      ref: matrix_inner_home
+      shift: [-0.5kx + 4, -ky + 5]
+    mirror: *mirror
+    key:
+      name: mounting_hole
+      width: 1
+      height: 1
+outlines:
+    _key_outline:
+      - what: rectangle
+        bound: true
+        size: sf
+        where: [keys]
+      - what: rectangle
+        bound: true
+        size: [16,51]
+        where: matrix_pinky_bottom
+        adjust.shift: [0,19]  
+      - what: rectangle
+        bound: true
+        size: [16,51]
+        where: mirror_matrix_pinky_bottom
+        adjust.shift: [0,19]  
+    _break_line:
+      #break pinky_bottom
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_bottom
+        adjust.shift: [-6.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_bottom
+        adjust.shift: [-4.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_bottom
+        adjust.shift: [-2.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_bottom
+        adjust.shift: [-0.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_bottom
+        adjust.shift: [1.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_bottom
+        adjust.shift: [4.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_bottom
+        adjust.shift: [6.5, 10.25]
+      #break pinky top
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_top
+        adjust.shift: [-6.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_top
+        adjust.shift: [-4.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_top
+        adjust.shift: [-2.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_top
+        adjust.shift: [-0.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_top
+        adjust.shift: [1.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_top
+        adjust.shift: [4.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_top
+        adjust.shift: [6.5, -10.25]   
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_top
+        adjust.shift: [8.5, -10.25] 
+      - what: circle
+        radius: 0.75
+        where: matrix_pinky_top
+        adjust.shift: [10.5, -10.25]                   
+      #break pinky_bottom right
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_bottom
+        adjust.shift: [-6.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_bottom
+        adjust.shift: [-4.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_bottom
+        adjust.shift: [-1.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_bottom
+        adjust.shift: [0.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_bottom
+        adjust.shift: [2.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_bottom
+        adjust.shift: [4.5, 10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_bottom
+        adjust.shift: [6.5, 10.25]
+      #break pinky top right
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_top
+        adjust.shift: [-6.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_top
+        adjust.shift: [-4.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_top
+        adjust.shift: [-1.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_top
+        adjust.shift: [0.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_top
+        adjust.shift: [2.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_top
+        adjust.shift: [4.5, -10.25]
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_top
+        adjust.shift: [6.5, -10.25]                                                                       
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_top
+        adjust.shift: [8.5, -10.25] 
+      - what: circle
+        radius: 0.75
+        where: mirror_matrix_pinky_top
+        adjust.shift: [10.5, -10.25]   
+        
+    _matrix_pinky_top_fix:
+      - what: polygon
+        points:
+        - ref: matrix_pinky_top
+          shift: [-8, 8]
+        - ref: matrix_pinky_top
+          shift: [-8, -11]
+        - ref: matrix_pinky_top  # reachy
+          shift: [25, -11]
+        - ref: matrix_pinky_top  # reachy
+          shift: [25, 8]
+    _mirror_matrix_pinky_top_fix:
+      - what: polygon
+        points:
+        - ref: mirror_matrix_pinky_top
+          shift: [-8, 8]
+        - ref: mirror_matrix_pinky_top
+          shift: [-8, -11]
+        - ref: mirror_matrix_pinky_top  # reachy
+          shift: [25, -11]
+        - ref: mirror_matrix_pinky_top  # reachy
+          shift: [25, 8]          
+    _matrix_pinky_top_break:
+      - what: rectangle
+        size: [0.8, 8]
+        where: matrix_ring_home
+        corner: 0.39
+        adjust.shift: [-8.4,3.5]
+      - what: rectangle
+        size: [0.8, 8]
+        where: matrix_ring_home
+        corner: 0.39
+        adjust.shift: [-8.4, -6.5]        
+      - what: rectangle
+        size: [0.8, 8]
+        where: mirror_matrix_ring_home
+        corner: 0.39
+        adjust.shift: [-8.4,3.5]
+      - what: rectangle
+        size: [0.8, 8]
+        where: mirror_matrix_ring_home
+        corner: 0.39
+        adjust.shift: [-8.4, -6.5]        
+
+    _center:
+      - what: polygon
+        points:
+        - ref: matrix_inner_top
+          shift: [0, -0.8ky+4]
+        - ref: mirror_matrix_inner_top
+          shift: [0, -0.3ky+4]
+        - ref: mirror_thumb_tucky  # reachy
+          shift: [0, 0.6ky-4]
+        - ref: thumb_tucky  # reachy
+          shift: [0, -0.2ky-4]
+      - what: rectangle
+        bound: true
+        size: sf
+        where: [matrix_inner]  # Include the inner keys in addition to the center polygon 
+      - what: rectangle
+        bound: true
+        size: sf
+        where: [matrix_inner]
+        adjust.shift: [0,-5]    
+    _panelz:
+      - name: _key_outline
+      - name: _mirror_matrix_pinky_top_fix
+      - name: _matrix_pinky_top_fix
+    _panel:
+      - name: _center
+        fillet: 3  # The inner rounding where the glue meets the top center keys
+      #- operation: subtract
+      #  what: circle
+      #  adjust:
+      #    aggregate.parts: [thumb_reachy, mirror_thumb_reachy]
+      #    shift: [0, 0.5sf - 60]
+      #  radius: 60  # Should be the same as the last number in `shift` above
+      - _panelz
+      - _break_line
+    panel:
+      - name: _panel
+        fillet: 1.5
+    panel1:
+      - what: outline
+        name: panel
+      - what: outline
+        name: _break_line
+        operation: subtract 
+        
+    anel1:
+      - what: outline
+        name: panel1
+      - what: outline
+        name: _matrix_pinky_top_break
+        operation: subtract 
+
+    _switches:
+      - what: rectangle
+        size: 14
+        where: [keys]
+    _keycaps:
+      - what: rectangle
+        size: [capx, capy]
+        where: [keys]
+    _mcu:
+      - what: rectangle
+        adjust.ref: mcu
+        size: [xiao_x, xiao_y]
+    _mounting_holes:
+      - what: circle
+        adjust.ref: mounting_hole
+        radius: 1
+      - what: circle
+        adjust.ref: mirror_mounting_hole
+        radius: 1
+    key_switch:
+      - what: rectangle 
+        size: [18.9,18.9]
+        where: [keys]
+    demo_switches:
+      - panel
+      - ^_switches
+      - ^_mcu
+      # - ^_mounting_holes
+    demo_keycaps:
+      - panel
+      - ^_keycaps
+      - ^_mcu
+      # - ^_mounting_holes
+    switchplate:
+      - panel
+      - operation: subtract
+        name: _switches
+        fillet: 0.5
+    zilpzalp_02:
+      - _switches
+
+
+pcbs:
+  zilpzalp:
+    template: kicad8
+    outlines:
+      main:
+        outline: anel1
+    footprints:
+      choc_hotswap:
+        what: ceoloide/switch_choc_v1_v2
+        where: [keys]
+        params:
+          from: "{{row_net}}"
+          to: "{{colrow}}"
+
+      diodes:
+        what: ceoloide/diode_tht_sod123
+        where: [keys] 
+        adjust:
+          shift: [8.25, 0]
+          rotate: 90
+        params:
+          from: "{{colrow}}"
+          to: "{{column_net}}"
+          
+          include_tht: true
+          include_traces_vias: true
+          trace_width: 0.2 
+          
+
+      choc_hotswap_1:
+        what: ceoloide/switch_choc_v1_v2
+        where: 
+          - single_thumb_left
+          - single_thumb_right
+        adjust.rotate: 180  
+        params:
+          from: "{{column_net}}"
+          to: "{{colrow}}" 
+          
+                   
+      # choc:
+      #   what: ceoloide/switch_choc_v1_v2
+      #   where: [keys]
+      #   adjust:
+      #     rotate: 180
+      #   params:
+      #     from: "{{row_net}}"
+      #     to: "{{column_net}}"
+      #     # keycaps: false
+      #     # reverse: false
+      #     hotswap: false
+      mcu:
+        what: ceoloide/mcu_supermini_nrf52840
+        where: mcu
+          #shift: [-0.5xiao_x, -0.5xiao_y]  # Anchor is topleft corner
+        #type: mountinghole
+        params:
+          reverse_mount: true       
+          P20: r1
+          P19: r2
+          P18: c2
+          P15: c3
+          P14: c4
+          P16: c5
+          P10: c1
+          P3: r3
+          P4: c9
+          P5: c8
+          P6: c7
+          P7: c6
+          P8: c10
+          P9: r4
+      mounting_hole:
+        what: ceoloide/mounting_hole_plated
+        where: 
+          - mounting_hole
+          - mirror_mounting_hole
+      power_switch_place_holder:
+        what: ceoloide/mounting_hole_plated
+        where: mcu
+        adjust.shift: [-6.938+0.588,-18.896]      
+      filled_gnd:
+        what: ceoloide/utility_filled_zone
+        params:
+          side: 'F&B'
+          net: GND
+          # corner_smoothing: 'chamfer',
+          # smoothing_radius: 0.5,
+          # connect_pads: '',
+          # pad_clearance: 0.508,
+          # min_thickness: 0.25,
+          # thermal_gap: 0.5,
+          # thermal_bridge_width: 0.5,
+          # remove_islands: 'never',
+          # min_island_size: 5,
+          fill_type: 'solid'
+          # hatch_thickness: 1,
+          # hatch_gap: 1.5,
+          # hatch_orientation: 0,
+          # hatch_smoothing_level: 0,
+          # hatch_smoothing_value: 0.1,
+          points: [[100, 90], [340, 90], [340, 220], [100, 220]]
+      mount_down_text:
+        what: ceoloide/utility_text
+        where: mcu
+        adjust.rotate: 90
+        params: 
+          text:  'mcu face down'  
